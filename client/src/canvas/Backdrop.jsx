@@ -1,6 +1,6 @@
-import React, { useRef } from 'react'
-import { easing } from 'maath'
-import { useFrame } from '@react-three/fiber'
+import React, { useRef } from 'react';
+import { easing } from 'maath';
+import { useFrame } from '@react-three/fiber';
 import { AccumulativeShadows, RandomizedLight } from '@react-three/drei';
 
 const Backdrop = () => {
@@ -10,28 +10,30 @@ const Backdrop = () => {
     <AccumulativeShadows
       ref={shadows}
       temporal
-      frames={60}
-      alphaTest={0.85}
-      scae={10}
-      rotation={[Math.PI / 2, 0, 0]}
-      position={[0, 0, -0.14]}
+      frames={6}            // Reduce this if needed for performance
+      alphaTest={1}       // Adjust for better shadow blending
+      scale={12}             // Increased to ensure full scene coverage
+      rotation={[Math.PI / 2, 0, 0]} // Ensures shadows fall from the top
+      position={[0, 0, -0.19]} // Adjusted for shadow visibility
     >
       <RandomizedLight 
-        amount={4}
-        radius={9}
-        intensity={0.55}
-        ambient={0.25}
-        position={[5, 5, -10]}
+        amount={9}            // Increased amount of lights for more coverage
+        radius={9}            // Adjusted radius for wider light coverage
+        intensity={5}       // Increased intensity for brighter lighting
+        ambient={0.35}        // Adjusted ambient to fill dark areas
+        position={[5, 5, -10]} // Positioned for optimal light spread
+        bias={0.0001}         // Reduces shadow artifacts
       />
       <RandomizedLight 
-        amount={4}
-        radius={5}
-        intensity={0.25}
-        ambient={0.55}
-        position={[-5, 5, -9]}
+        amount={5}            // Matching light count for consistency
+        radius={6}            // Adjusted for symmetry and balance
+        intensity={0.5}       // Increased for brighter effects
+        ambient={0.45}        // Higher ambient to combat darkness
+        position={[-5, 5, -9]} // Symmetrical positioning
+        bias={0.0001}         // Consistency in shadow rendering
       />
     </AccumulativeShadows>
-  )
+  );
 }
 
-export default Backdrop
+export default Backdrop;

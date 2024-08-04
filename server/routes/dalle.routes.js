@@ -20,20 +20,32 @@ router.route('/').post(async (req, res) => {
   try {
     const { prompt } = req.body;
 
+    if (!prompt || typeof prompt !== 'string') {
+      return res.status(400).json({ message: "Invalid prompt" });
+    }
+
     const response = await openai.createImage({
       prompt,
       n: 1,
       size: '1024x1024',
-      response_format: 'b64_json'
+      response_format: 'b64_json',
     });
 
     const image = response.data.data[0].b64_json;
 
+    if (!image) {
+      throw new Error("Failed to generate image");
+    }
+
     res.status(200).json({ photo: image });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Something went wrong" })
+    console.error("Error generating image:", error.message);
+    if (error.response) {
+      console.error("OpenAI API error:", error.response.data);
+    }
+    res.status(500).json({ message: "Something went wrong", error: error.message });
   }
-})
+});
+
 
 export default router;

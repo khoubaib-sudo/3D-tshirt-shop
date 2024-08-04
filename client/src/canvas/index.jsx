@@ -1,15 +1,29 @@
-import Canvas from '../canvas';
-import Customizer from '../pages/Customizer';
-import Home from '../pages/Home';
+import { Canvas } from '@react-three/fiber'
+import { Environment, Center } from '@react-three/drei';
 
-function App() {
+import Shirt from './Shirt';
+import Backdrop from './Backdrop';
+import CameraRig from './CameraRig';
+
+const CanvasModel = () => {
   return (
-    <main className="app transition-all ease-in">
-      <Home />
-      <Canvas />
-      <Customizer />
-    </main>
+    <Canvas
+      shadows
+      camera={{ position: [0, 0, 0], fov: 25 }}
+      gl={{ preserveDrawingBuffer: true }}
+      className="w-full max-w-full h-full transition-all ease-in"
+    >
+      <ambientLight intensity={0.5} />
+      <Environment preset="city" />
+
+      <CameraRig>
+        <Backdrop />
+        <Center>
+          <Shirt />
+        </Center>
+      </CameraRig>
+    </Canvas>
   )
 }
 
-export default App
+export default CanvasModel
